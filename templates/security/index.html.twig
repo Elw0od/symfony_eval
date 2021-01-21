@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+
+    <div class="my-2">
+        <a href="{{ path('user_register_edit')}}" class="btn btn-primary">Add User</a>
+    </div>
+    <hr>
+
+        <div class="row">
+        {% for user in userList %}
+            <div class="col-4">
+                <div class='card'>
+                    <div class="card-header">
+                        <h2 class="card-title text-center font-weight-bold">
+                        {% if user.roles[0] == 'ROLE_ADMIN' %}
+                            ADMIN
+                        {% elseif user.roles[0] == 'ROLE_STAFF' %}
+                            STAFF
+                        {% else %}
+                            USER
+                        {% endif %}
+                        </h2>
+                    </div>
+                    <div class="card-body text-center">
+                        <p>Email : {{user.email}}</p>
+                        <p>Role : {{user.roles[0]}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{path('user_register_edit',{id:user.id})}}" class="btn btn-primary">Update</a>
+                        <a href="{{path('user_delete',{id:user.id})}}" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

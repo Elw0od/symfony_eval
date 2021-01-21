@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        {% block stylesheets %}{% endblock %}
+        <style>
+            li {
+                list-style : none;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{{path('home')}}">MobileMarket</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('home')}}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('category')}}">Category</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('product')}}">Product</a>
+                    </li>
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="form-inline my-2 my-lg-0">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item" style="margin-right: 1em;">
+                        <a class="btn btn-warning my-2 my-sm-0" href="{{path('user')}}">Gestion</a>
+                    </li>
+                {% endif %}
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    <li class="nav-item">
+                        <a class="btn btn-danger my-2 my-sm-0" href="{{ path('app_logout') }}">Logout</a>
+                    </li>
+                {% endif %}
+
+                {% if not app.user %}
+                    <li class="nav-item">
+                        <a class="btn btn-success my-2 my-sm-0" href="{{path('app_login')}}">Login</a>
+                    <li>
+                {% endif %}
+            </div>
+        </nav>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('warning') %}
+            <div class="alert alert-warning">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('danger') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% block body %}{% endblock %}
+        <!-- Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

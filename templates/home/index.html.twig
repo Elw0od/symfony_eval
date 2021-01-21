@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row">
+            {% for product in products %}
+                <div class="col-4">
+                    <div class='card'>
+                        <div class="card-header">
+                            <h2 class="card-title text-center font-weight-bold">{{ product.name }}</h2>
+                        </div>
+                        <div class="card-body text-center">
+                            <img class="img-fluid" src="{{product.image}}" alt="{{product.name}}">
+                        </div>
+                        <div class="card-footer">
+                            <p>Prices : {{ product.price }} $</p>
+                            <p>Category: {{product.category.name }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
